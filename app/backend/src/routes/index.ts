@@ -1,3 +1,7 @@
-import { teamRouter } from "./team";
+import { teamRouter } from './team';
 
 export { teamRouter };
+
+export default {
+  teamRouter,
+};

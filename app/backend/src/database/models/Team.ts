@@ -15,7 +15,7 @@ Team.init({
   teamName: {
     type: DataTypes.STRING,
     allowNull: false,
-  }
+  },
 }, {
   underscored: true,
   sequelize: db,

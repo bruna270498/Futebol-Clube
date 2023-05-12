@@ -6,3 +6,7 @@ const teamRouter = Router();
 teamRouter.get('/', teamController.getAll);
 
 export { teamRouter };
+
+export default {
+  teamRouter,
+};
