@@ -4,7 +4,7 @@ import { Unauthorized } from '../commons/errors';
 
 const messageUnauthorized = 'Invalid email or password';
 
-const login = async (email: string, password: string) => {
+const login = async (email: string, password: string): Promise<User> => {
   const user = await User.findOne({ where: { email } });
   if (!user) throw new Unauthorized(messageUnauthorized);
   const hash = user?.password;
