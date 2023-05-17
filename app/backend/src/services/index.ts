@@ -1,7 +1,9 @@
 import teamService from './team';
+import loginService from './login';
 
-export { teamService };
+export { teamService, loginService };
 
 export default {
   teamService,
+  loginService,
 };
