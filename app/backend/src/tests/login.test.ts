@@ -14,7 +14,9 @@ const { expect } = chai;
 const sandbox = sinon.createSandbox();
 
 describe('Testa os endpoints de Login', () => {
-
+  afterEach(() => {
+    sandbox.restore();
+  });
   it('Verifica se é possível executar o login utilizando credenciais válidas com sucesso.', async () => {
     sandbox.stub(User, 'findOne').resolves(mocks.user as User);
     const response = await chai
@@ -52,13 +54,26 @@ describe('Testa os endpoints de Login', () => {
     expect(response.body.message).to.be.eq('All fields must be filled');
   });
 
-  it('Verifica se é retornado erro quando tenta executar login com credenciais invalidas.', async () => {
+  it('Verifica se é retornado erro quando tenta executar login com senha invalida.', async () => {
+    sandbox.stub(User, 'findOne').resolves(mocks.user as User);
     const response = await chai
       .request(app)
       .post('/login')
       .send({
         email: 'bruna@trybe.com',
         password: 'wrong_password',
+      });
+    expect(response.status).to.be.eq(401);
+    expect(response.body.message).to.be.eq('Invalid email or password');
+  });
+  it('Verifica se é retornado erro quando tenta executar login com e-mail invalido.', async () => {
+    sandbox.stub(User, 'findOne').resolves(null);
+    const response = await chai
+      .request(app)
+      .post('/login')
+      .send({
+        email: 'bruna@trybe',
+        password: '123456',
       });
     expect(response.status).to.be.eq(401);
     expect(response.body.message).to.be.eq('Invalid email or password');
