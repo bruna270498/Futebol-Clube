@@ -9,6 +9,11 @@ loginRouter.post('/', [
   loginController.login,
 ]);
 
+loginRouter.get('/role', [
+  loginMiddleware.validateToken,
+  loginController.getUserRoleByToken,
+]);
+
 export { loginRouter };
 
 export default {

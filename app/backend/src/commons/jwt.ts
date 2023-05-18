@@ -1,4 +1,4 @@
-import { sign, verify, SignOptions } from 'jsonwebtoken';
+import { sign, verify, decode, SignOptions } from 'jsonwebtoken';
 
 const secretKey = process.env.JWT_SECRET || 'secret';
 
@@ -7,7 +7,10 @@ export const generateToken = (payload: object) =>
 
 export const verifyToken = (token: string) => verify(token, secretKey);
 
+export const decodeToken = (token: string) => decode(token);
+
 export default {
   generateToken,
   verifyToken,
+  decodeToken,
 };
