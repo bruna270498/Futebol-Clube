@@ -16,6 +16,16 @@ const getAll = async (filters: ITeamFilter) => {
   return matches;
 };
 
+const finishMatch = async (matchId: number) => {
+  const match = await Match.findByPk(matchId);
+  if (match) {
+    match.inProgress = false;
+    await match?.save();
+  }
+  return match;
+};
+
 export default {
   getAll,
+  finishMatch,
 };

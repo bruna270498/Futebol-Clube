@@ -12,6 +12,13 @@ const getAll = async (req: Request, res: Response) => {
   res.status(200).json(matches);
 };
 
+const finishMatch = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  await matchService.finishMatch(Number(id));
+  res.status(200).json({ message: 'Finished' });
+};
+
 export default {
   getAll,
+  finishMatch,
 };
