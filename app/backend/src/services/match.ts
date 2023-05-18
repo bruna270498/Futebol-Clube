@@ -1,5 +1,5 @@
 import Match from '../database/models/Match';
-import { ITeamFilter } from '../commons/interfaces';
+import { ITeamFilter, IMatchResult } from '../commons/interfaces';
 
 const getAll = async (filters: ITeamFilter) => {
   const where = {} as ITeamFilter;
@@ -20,7 +20,17 @@ const finishMatch = async (matchId: number) => {
   const match = await Match.findByPk(matchId);
   if (match) {
     match.inProgress = false;
-    await match?.save();
+    await match.save();
+  }
+  return match;
+};
+
+const updateMatchResult = async (matchId: number, matchResult: IMatchResult) => {
+  const match = await Match.findByPk(matchId);
+  if (match) {
+    match.homeTeamGoals = matchResult.homeTeamGoals;
+    match.awayTeamGoals = matchResult.awayTeamGoals;
+    await match.save();
   }
   return match;
 };
@@ -28,4 +38,5 @@ const finishMatch = async (matchId: number) => {
 export default {
   getAll,
   finishMatch,
+  updateMatchResult,
 };

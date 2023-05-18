@@ -9,6 +9,10 @@ matchRouter.patch('/:id/finish', [
   loginMiddleware.validateToken,
   matchController.finishMatch,
 ]);
+matchRouter.patch('/:id', [
+  loginMiddleware.validateToken,
+  matchController.updateMatchResult,
+]);
 
 export { matchRouter };
 
