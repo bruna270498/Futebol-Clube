@@ -1,5 +1,7 @@
 import Match from '../database/models/Match';
+import Team from '../database/models/Team';
 import { ITeamFilter, IMatchResult, IMatch } from '../commons/interfaces';
+import { UnprocessableEntity, NotFound } from '../commons/errors';
 
 const getAll = async (filters: ITeamFilter) => {
   const where = {} as ITeamFilter;
@@ -36,6 +38,20 @@ const updateMatchResult = async (matchId: number, matchResult: IMatchResult) => 
 };
 
 const insertMatch = async (match: IMatch) => {
+  const { homeTeamId, awayTeamId } = match;
+  if (homeTeamId === awayTeamId) {
+    throw new UnprocessableEntity('It is not possible to create a match with two equal teams');
+  }
+
+  const [homeTeam, awayTeam] = await Promise.all([
+    Team.findByPk(homeTeamId),
+    Team.findByPk(awayTeamId),
+  ]);
+
+  if (!homeTeam || !awayTeam) {
+    throw new NotFound('There is no team with such id!');
+  }
+
   const createdMatch = new Match({ ...match, inProgress: true });
   await createdMatch.save();
   return createdMatch;

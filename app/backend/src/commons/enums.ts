@@ -5,6 +5,7 @@ export const enum statusCodes {
   UNAUTHORIZED = 401,
   NOT_FOUND = 404,
   INTERNAL_SERVER_ERROR = 500,
+  UNPROCESSABLE_ENTITY = 422,
 }
 
 export default statusCodes;
