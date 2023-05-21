@@ -1,5 +1,5 @@
 import Match from '../database/models/Match';
-import { ITeamFilter, IMatchResult } from '../commons/interfaces';
+import { ITeamFilter, IMatchResult, IMatch } from '../commons/interfaces';
 
 const getAll = async (filters: ITeamFilter) => {
   const where = {} as ITeamFilter;
@@ -35,8 +35,15 @@ const updateMatchResult = async (matchId: number, matchResult: IMatchResult) => 
   return match;
 };
 
+const insertMatch = async (match: IMatch) => {
+  const createdMatch = new Match({ ...match, inProgress: true });
+  await createdMatch.save();
+  return createdMatch;
+};
+
 export default {
   getAll,
   finishMatch,
   updateMatchResult,
+  insertMatch,
 };
