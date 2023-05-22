@@ -10,7 +10,7 @@ export class Score {
   declare goalsFavor: number;
   declare goalsOwn: number;
   declare goalsBalance: number;
-  declare efficiency: number;
+  declare efficiency: string;
 
   constructor(name: string) {
     this.name = name;
@@ -22,7 +22,7 @@ export class Score {
     this.goalsFavor = 0;
     this.goalsOwn = 0;
     this.goalsBalance = 0;
-    this.efficiency = 0;
+    this.efficiency = '0.00';
   }
 
   addWin() {
@@ -40,7 +40,8 @@ export class Score {
   }
 
   updateEfficiency() {
-    this.efficiency = this.totalPoints / this.totalGames;
+    const efficiency = (this.totalPoints / (this.totalGames * 3)) * 100;
+    this.efficiency = efficiency.toFixed(2);
   }
 
   addGoals(goalsFavor: number, goalsOwn: number) {
