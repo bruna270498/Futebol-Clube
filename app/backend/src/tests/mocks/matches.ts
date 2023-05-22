@@ -670,5 +670,19 @@ export default [
     "awayTeam": {
       "teamName": "Bahia"
     }
+  },
+  {
+    "id": 49,
+    "homeTeamId": 7,
+    "homeTeamGoals": 3,
+    "awayTeamId": 11,
+    "awayTeamGoals": 0,
+    "inProgress": false,
+    "homeTeam": {
+      "teamName": "Flamengo"
+    },
+    "awayTeam": {
+      "teamName": "Napoli-SC"
+    }
   }
 ]
