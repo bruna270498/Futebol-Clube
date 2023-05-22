@@ -9,18 +9,18 @@ const filterMatchesByType = (
   type: string | undefined,
 ) => matches.filter((match) => {
   const teamIds = [];
-  if (type === 'home') {
+  if (!type || type === 'home') {
     teamIds.push(match.homeTeamId);
   }
 
-  if (type === 'away') {
+  if (!type || type === 'away') {
     teamIds.push(match.awayTeamId);
   }
 
   return teamIds.includes(teamId);
 });
 
-const getByType = async (type: string) => {
+const getByType = async (type?: string) => {
   const teams = await Team.findAll();
   const matches = await Match.findAll({
     where: { inProgress: false },
