@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { leaderboardService } from '../services';
-import { IScoreResult } from '../commons/interfaces';
 
 const getByType = async (req: Request, res: Response) => {
   const { type } = req.params;
