@@ -66,8 +66,33 @@ describe('Testa os endpoints de Login', () => {
     expect(response.status).to.be.eq(401);
     expect(response.body.message).to.be.eq('Invalid email or password');
   });
+
+  it('Verifica se é retornado erro quando tenta executar login com senha muito curta.', async () => {
+    const response = await chai
+      .request(app)
+      .post('/login')
+      .send({
+        email: 'bruna@trybe.com',
+        password: 'short',
+      });
+    expect(response.status).to.be.eq(401);
+    expect(response.body.message).to.be.eq('Invalid email or password');
+  });
+
   it('Verifica se é retornado erro quando tenta executar login com e-mail invalido.', async () => {
     sandbox.stub(User, 'findOne').resolves(null);
+    const response = await chai
+      .request(app)
+      .post('/login')
+      .send({
+        email: 'bruna@trybe.com',
+        password: '123456',
+      });
+    expect(response.status).to.be.eq(401);
+    expect(response.body.message).to.be.eq('Invalid email or password');
+  });
+
+  it('Verifica se é retornado erro quando tenta executar login com e-mail invalido.', async () => {
     const response = await chai
       .request(app)
       .post('/login')
@@ -77,5 +102,47 @@ describe('Testa os endpoints de Login', () => {
       });
     expect(response.status).to.be.eq(401);
     expect(response.body.message).to.be.eq('Invalid email or password');
+  });
+
+  it('Verifica se é retornado o papel do usuário quando é feito o GET na rota /login/role', async () => {
+    sandbox.stub(User, 'findOne').resolves(mocks.user as User);
+    const { body: { token } } = await chai
+      .request(app)
+      .post('/login')
+      .send({
+        email: 'bruna@trybe.com',
+        password: '123456',
+      });
+
+    
+    const response = await chai
+      .request(app)
+      .get('/login/role')
+      .set("authorization", token);
+    
+    expect(response.status).to.be.eq(200);
+    expect(response.body).to.be.deep.eq({ role: 'admin' });
+  });
+
+  it('Verifica se é retornado o papel do usuário quando é feito o GET na rota /login/role', async () => {
+    sandbox.stub(User, 'findOne').resolves(mocks.user as User);
+    const { body: { token } } = await chai
+      .request(app)
+      .post('/login')
+      .send({
+        email: 'bruna@trybe.com',
+        password: '123456',
+      });
+      
+    sandbox.restore();
+    sandbox.stub(User, 'findOne').resolves(null);
+
+    const response = await chai
+      .request(app)
+      .get('/login/role')
+      .set("authorization", token);
+    
+    expect(response.status).to.be.eq(401);
+    expect(response.body).to.be.deep.eq({ message: 'Token not found' });
   });
 });

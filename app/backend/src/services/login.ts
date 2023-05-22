@@ -14,7 +14,7 @@ const login = async (email: string, password: string): Promise<User> => {
   return user;
 };
 
-const getUserRoleByToken = async (token: string): Promise<string> => {
+const getUserRoleByToken = async (token = ''): Promise<string> => {
   const { id } = decodeToken(token) as User;
   const user = await User.findOne({ where: { id } });
   if (!user) throw new Unauthorized('Token not found');
